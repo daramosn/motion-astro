@@ -1,0 +1,115 @@
+---
+interface Props {
+  title: string
+}
+
+const { title } = Astro.props
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="Diego Ramos. Engineer and front-end web developer from Colombia. Crafting beautiful and functional user experiences.       
+      Code, create, captivate. Building cool stuff.  "
+    />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link
+      rel="preload"
+      href="https://cdn.jsdelivr.net/fontsource/fonts/bebas-neue@latest/latin-400-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
+    <title>{title}</title>
+  </head>
+
+  <body data-theme="dark">
+    <slot />
+  </body>
+
+  <style is:global>
+    :root {
+      --background-color: #1b1b28;
+      --background-color-rgb: 27, 27, 40;
+      --color: white;
+      --color-rgb: 255, 255, 255;
+      --color-op: black;
+      --color-op-rgb: 0, 0, 0;
+
+      --br-sm: 576px;
+      --br-md: 768px;
+      --br-lg: 992px;
+      --br-xl: 1200px;
+      --br-xxl: 1400px;
+      --body: var(--br-xl);
+    }
+
+    [data-theme='light'] {
+      --background-color: hsl(225, 100%, 96%);
+
+      --color-gr-1: #ff0;
+      --color-gr-2: #c51162;
+      --color-gr-3: #e65100;
+
+      --color: black;
+      --color-rgb: 0, 0, 0;
+      --color-op: white;
+      --color-op-rgb: 255, 255, 255;
+    }
+
+    @font-face {
+      font-family: 'Bebas Neue';
+      font-style: normal;
+      font-display: swap;
+      font-weight: 400;
+      src:
+        url(https://cdn.jsdelivr.net/fontsource/fonts/bebas-neue@latest/latin-400-normal.woff2)
+          format('woff2'),
+        url(https://cdn.jsdelivr.net/fontsource/fonts/bebas-neue@latest/latin-400-normal.woff)
+          format('woff');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+        U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC,
+        U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
+    *,
+    :after,
+    :before {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-family: system-ui, sans-serif;
+    }
+
+    body {
+      margin: 0px;
+      background-color: var(--background-color);
+      background-size: cover;
+      color: var(--color);
+      transition:
+        color 0.2s ease-out,
+        background-color 0.2s ease-out;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background-color: #d9d9d9;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #888;
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: #6f6f6f;
+    }
+  </style>
+</html>

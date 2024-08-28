@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro'
+---
+
+<Layout title="Motion - Infinite text">
+  <header>
+    <h1>Motion Projects Gallery</h1>
+  </header>
+  <main>
+    <a href="/infinite-text">Infinite text</a>
+    <a href="/floating-gallery">Floating gallery</a>
+    <a href="/sticky-sections">Sticky sections</a>
+  </main>
+</Layout>
+
+<style>
+  header {
+    padding: 16px max(32px, calc((100% - var(--body)) / 2));
+    h1 {
+      font-size: customClamp(32px, 64px, 512px, 1400px);
+      text-align: center;
+    }
+  }
+  main {
+  }
+</style>

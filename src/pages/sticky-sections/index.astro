@@ -1,0 +1,10 @@
+---
+import StickySections from '@modules/StickySections/components/StickySections.vue'
+import Lenis from 'src/components/Lenis.astro'
+import Layout from 'src/layouts/Layout.astro'
+---
+
+<Layout title="Sticky sections">
+  <Lenis />
+  <StickySections client:visible />
+</Layout>

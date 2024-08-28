@@ -22,5 +22,26 @@ import Layout from '../layouts/Layout.astro'
     }
   }
   main {
+    padding: 16px max(32px, calc((100% - var(--body)) / 2));
+    display: grid;
+    a {
+      text-decoration: none;
+      font-size: customClamp(24px, 32px, 536px, 1200px);
+      padding: 32px 16px;
+      color: color-mix(in srgb, currentColor, transparent 70%);
+      transition: color ease-out 0.2s;
+      border-bottom: 1px solid white;
+      &:first-child {
+        border-top: 1px solid white;
+      }
+      &:hover {
+        color: color-mix(in srgb, currentColor, transparent 0%);
+      }
+
+      a {
+        text-decoration: none;
+        color: currentColor;
+      }
+    }
   }
 </style>

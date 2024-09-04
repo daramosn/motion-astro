@@ -4,6 +4,30 @@ import Layout from '../layouts/Layout.astro'
 import floating from '../assets/floating.webp'
 import sticky from '../assets/sticky.webp'
 import infiniteText from '../assets/infinite-text.webp'
+import mask from '../assets/mask.webp'
+
+const projects = [
+  {
+    url: '/infinite-text',
+    name: 'Infinite text',
+    thumbnail: infiniteText.src
+  },
+  {
+    url: '/floating-gallery',
+    name: 'Floating gallery',
+    thumbnail: floating.src
+  },
+  {
+    url: '/sticky-sections',
+    name: 'Sticky sections',
+    thumbnail: sticky.src
+  },
+  {
+    url: '/mask-cursor',
+    name: 'Mask cursor',
+    thumbnail: mask.src
+  }
+]
 ---
 
 <Layout title="Motion - Infinite text">
@@ -12,21 +36,21 @@ import infiniteText from '../assets/infinite-text.webp'
   </header>
   <main>
     <ul>
-      <li>
-        <a href="/infinite-text">Infinite text</a>
-      </li>
-      <li>
-        <a href="/floating-gallery">Floating gallery</a>
-      </li>
-      <li>
-        <a href="/sticky-sections">Sticky sections</a>
-      </li>
+      {
+        projects.map((project) => (
+          <li>
+            <a href={project.url}>{project.name}</a>
+          </li>
+        ))
+      }
     </ul>
     <div class="float">
       <div class="container">
-        <img src={infiniteText.src} alt="Infinite text demo screenshot" />
-        <img src={floating.src} alt="Floating gallery demo screenshot" />
-        <img src={sticky.src} alt="Sticky sections demo screenshot" />
+        {
+          projects.map((project) => (
+            <img src={project.thumbnail} alt={project.name + ' demo screenshot'} />
+          ))
+        }
       </div>
     </div>
   </main>

@@ -1,0 +1,86 @@
+<main class="mask-cursor">
+  <section>
+    <h1>Mask Cursor</h1>
+    <p>
+      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ab exercitationem eveniet
+      esse dicta, laboriosam voluptates eligendi neque quia nihil facere id sapiente quis
+      vitae ad reprehenderit qui officia ex. Ullam.
+    </p>
+    <div class="circle"></div>
+  </section>
+</main>
+
+<script>
+  import gsap from 'gsap'
+  const $main = document.body.querySelector('.mask-cursor') as HTMLElement
+
+  const mouseMoveHandler = (e: MouseEvent) => {
+    const { x, y } = e
+
+    const $circle = document.body.querySelector('.circle') as HTMLElement
+    const circleRadius = $circle.getBoundingClientRect().height / 2
+
+    // Vanilla (no smooth spring)
+    // $circle.style.left = x - circleBound.width / 2 + 'px'
+    // $circle.style.top = y - circleBound.height / 2 + 'px'
+
+    // // Motion one
+    // animate(
+    //   $circle,
+    //   { x: x - circleRadius, y: y - circleRadius },
+    //   { easing: spring({ mass: 1, damping: 17, stiffness: 400 }) }
+    // )
+
+    // GSAP
+    gsap.to($circle, {
+      x: x - circleRadius,
+      y: y - circleRadius,
+      duration: 1,
+      ease: 'elastic.out(1, 0.5)'
+    })
+  }
+  $main.addEventListener('mousemove', mouseMoveHandler)
+</script>
+
+<style>
+  .mask-cursor {
+    background-color: black;
+    height: 100vh;
+    display: grid;
+    place-content: center;
+    text-align: center;
+    contain: layout;
+    padding: 32px max(32px, calc((100% - var(--body)) / 2));
+    h1 {
+      font-size: 64px;
+    }
+    p {
+      font-size: 32px;
+    }
+
+    section {
+      padding: 32px;
+
+      &:hover .circle {
+        width: 250px;
+        height: 250px;
+      }
+    }
+
+    .circle {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      transform: translate(-100px, -100px);
+      background-color: white;
+      mix-blend-mode: difference;
+      pointer-events: none;
+      transition:
+        width 0.1s ease-in,
+        height 0.1s ease-in;
+    }
+  }
+</style>

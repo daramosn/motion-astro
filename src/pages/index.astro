@@ -1,5 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro'
+
+import floating from '../assets/floating.webp'
+import sticky from '../assets/sticky.webp'
+import infiniteText from '../assets/infinite-text.webp'
 ---
 
 <Layout title="Motion - Infinite text">
@@ -7,9 +11,24 @@ import Layout from '../layouts/Layout.astro'
     <h1>Motion Projects Gallery</h1>
   </header>
   <main>
-    <a href="/infinite-text">Infinite text</a>
-    <a href="/floating-gallery">Floating gallery</a>
-    <a href="/sticky-sections">Sticky sections</a>
+    <ul>
+      <li>
+        <a href="/infinite-text">Infinite text</a>
+      </li>
+      <li>
+        <a href="/floating-gallery">Floating gallery</a>
+      </li>
+      <li>
+        <a href="/sticky-sections">Sticky sections</a>
+      </li>
+    </ul>
+    <div class="float">
+      <div class="container">
+        <img src={infiniteText.src} alt="Infinite text demo screenshot" />
+        <img src={floating.src} alt="Floating gallery demo screenshot" />
+        <img src={sticky.src} alt="Sticky sections demo screenshot" />
+      </div>
+    </div>
   </main>
 </Layout>
 
@@ -22,26 +41,113 @@ import Layout from '../layouts/Layout.astro'
     }
   }
   main {
-    padding: 16px max(32px, calc((100% - var(--body)) / 2));
-    display: grid;
-    a {
-      text-decoration: none;
-      font-size: customClamp(24px, 32px, 536px, 1200px);
-      padding: 32px 16px;
-      color: color-mix(in srgb, currentColor, transparent 70%);
-      transition: color ease-out 0.2s;
-      border-bottom: 1px solid white;
-      &:first-child {
-        border-top: 1px solid white;
-      }
-      &:hover {
-        color: color-mix(in srgb, currentColor, transparent 0%);
-      }
-
-      a {
-        text-decoration: none;
-        color: currentColor;
+    position: relative;
+    margin: 64px max(32px, calc((100% - var(--body)) / 2));
+    ul {
+      display: grid;
+      li {
+        border-bottom: 1px solid white;
+        color: color-mix(in srgb, currentColor, transparent 70%);
+        &:first-child {
+          border-top: 1px solid white;
+        }
+        &:hover {
+          color: color-mix(in srgb, currentColor, transparent 0%);
+        }
+        a {
+          display: block;
+          padding: 48px 32px;
+          text-decoration: none;
+          font-size: customClamp(24px, 32px, 536px, 1200px);
+          transition: color ease-out 0.2s;
+        }
       }
     }
   }
+  main:hover .float {
+    transform: scale(1);
+    opacity: 1;
+  }
+  .float {
+    pointer-events: none;
+    height: 230px;
+    max-height: 230px;
+    width: 300px;
+    background-color: aliceblue;
+    overflow: clip;
+    position: fixed;
+    top: 40%;
+    left: 40%;
+
+    transition: all 0.25s ease-out;
+    transform: scale(0);
+    opacity: 0.3;
+
+    .container {
+      height: 100%;
+      width: 100%;
+      transition: all 0.2s cubic-bezier(0.31, 0.18, 0, 1.05);
+    }
+
+    img {
+      padding: 16px;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
 </style>
+
+<script>
+  const $floatInner = document.body.querySelector('.float .container') as HTMLElement
+  const $float = document.body.querySelector('.float') as HTMLElement
+  const $links = document.body.querySelectorAll('main ul li') as NodeListOf<HTMLElement>
+
+  $links.forEach((link, index) => {
+    link.addEventListener('mouseenter', () => {
+      $floatInner.style.transform = `translateY(${-index * 100}%)`
+    })
+  })
+
+  // ==================
+  let requestAnimationFrameId = -1
+  let xMove = 0
+  let yMove = 0
+  const speed = 1
+  const inertia = 1 // inertia/easing
+
+  const $main = document.body.querySelector('main') as HTMLElement
+  $main.addEventListener('mouseenter', mouseEnter)
+  function mouseEnter() {
+    const lerp = (start: number, end: number, amount: number) => {
+      return start * (1 - amount) + end * amount
+    }
+
+    const mouseMoveHandler = (e: MouseEvent) => {
+      const { x, y } = e
+      xMove = x * speed
+      yMove = y * speed
+      console.log({ xMove, yMove })
+
+      if (requestAnimationFrameId === -1) {
+        requestAnimationFrameId = requestAnimationFrame(animation)
+      }
+    }
+    $main.addEventListener('mousemove', mouseMoveHandler)
+
+    const animation = () => {
+      xMove = lerp(0, xMove, inertia)
+      yMove = lerp(0, yMove, inertia)
+
+      $float.style.left = xMove - $float.getBoundingClientRect().width / 2 + 'px'
+      $float.style.top = yMove - $float.getBoundingClientRect().height / 2 + 'px'
+
+      if (Math.abs(xMove) > 0.01 || Math.abs(yMove) > 0.01) {
+        requestAnimationFrame(animation)
+      } else {
+        cancelAnimationFrame(requestAnimationFrameId)
+        requestAnimationFrameId = -1
+      }
+    }
+  }
+</script>

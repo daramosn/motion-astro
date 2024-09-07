@@ -11,7 +11,7 @@
 </main>
 
 <script>
-  import gsap from 'gsap'
+  import { animate, spring } from 'motion'
   const $main = document.body.querySelector('.mask-cursor') as HTMLElement
 
   const mouseMoveHandler = (e: MouseEvent) => {
@@ -24,20 +24,20 @@
     // $circle.style.left = x - circleBound.width / 2 + 'px'
     // $circle.style.top = y - circleBound.height / 2 + 'px'
 
-    // // Motion one
-    // animate(
-    //   $circle,
-    //   { x: x - circleRadius, y: y - circleRadius },
-    //   { easing: spring({ mass: 1, damping: 17, stiffness: 400 }) }
-    // )
+    // Motion one
+    animate(
+      $circle,
+      { x: x - circleRadius, y: y - circleRadius },
+      { easing: spring({ mass: 1, damping: 17, stiffness: 300 }) }
+    )
 
     // GSAP
-    gsap.to($circle, {
-      x: x - circleRadius,
-      y: y - circleRadius,
-      duration: 1,
-      ease: 'elastic.out(1, 0.5)'
-    })
+    // gsap.to($circle, {
+    //   x: x - circleRadius,
+    //   y: y - circleRadius,
+    //   duration: 1,
+    //   ease: 'elastic.out(1, 0.5)'
+    // })
   }
   $main.addEventListener('mousemove', mouseMoveHandler)
 </script>

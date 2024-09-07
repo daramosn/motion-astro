@@ -10,36 +10,54 @@ const projects = [
   {
     url: '/infinite-text',
     name: 'Infinite text',
-    thumbnail: infiniteText.src
+    thumbnail: infiniteText.src,
+    tags: ['Vue', 'GSAP'],
+    desktop: false
   },
   {
     url: '/floating-gallery',
     name: 'Floating gallery',
-    thumbnail: floating.src
+    thumbnail: floating.src,
+    tags: ['Vue'],
+    desktop: true
   },
   {
     url: '/sticky-sections',
     name: 'Sticky sections',
-    thumbnail: sticky.src
+    thumbnail: sticky.src,
+    tags: ['Vue', 'GSAP'],
+    desktop: false
   },
   {
     url: '/mask-cursor',
     name: 'Mask cursor',
-    thumbnail: mask.src
+    thumbnail: mask.src,
+    tags: ['Astro', 'Motion one'],
+    desktop: true
   }
 ]
 ---
 
 <Layout title="Motion - Infinite text">
   <header>
-    <h1>Motion Projects Gallery</h1>
+    <h1>motion projects gallery</h1>
   </header>
   <main>
-    <ul>
+    <ul class="projects">
       {
         projects.map((project) => (
-          <li>
-            <a href={project.url}>{project.name}</a>
+          <li class="project">
+            <a class="link" href={project.url}>
+              <span class="name">{project.name}</span>
+              <ul class="tags">
+                {project.tags.map((tag) => (
+                  <li>{tag}</li>
+                ))}
+                {project.desktop && (
+                  <li title="Works only with mouse position">Desktop only</li>
+                )}
+              </ul>
+            </a>
           </li>
         ))
       }
@@ -57,60 +75,146 @@ const projects = [
 </Layout>
 
 <style>
+  @font-face {
+    font-family: 'Pacifico';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 400;
+    src:
+      url(https://cdn.jsdelivr.net/fontsource/fonts/pacifico@latest/latin-400-normal.woff2)
+        format('woff2'),
+      url(https://cdn.jsdelivr.net/fontsource/fonts/pacifico@latest/latin-400-normal.woff)
+        format('woff');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+      U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212,
+      U+2215, U+FEFF, U+FFFD;
+  }
+
+  body {
+    background-color: rgb(251, 254, 255);
+    color: black;
+  }
+
+  /* body::before {
+    --size: 45px;
+    --line: color-mix(in lch, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background:
+      linear-gradient(90deg, var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% / var(--size)
+        var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  } */
+
   header {
-    padding: 16px max(32px, calc((100% - var(--body)) / 2));
+    padding: 32px max(32px, calc((100% - var(--body)) / 2));
     h1 {
       font-size: customClamp(32px, 64px, 512px, 1400px);
       text-align: center;
+      font-family: 'Pacifico';
+      text-transform: uppercase;
+      text-transform: lowercase;
+      text-transform: capitalize;
     }
   }
   main {
     position: relative;
     margin: 64px max(32px, calc((100% - var(--body)) / 2));
-    ul {
+    .projects {
       display: grid;
-      li {
-        border-bottom: 1px solid white;
-        color: color-mix(in srgb, currentColor, transparent 70%);
+      .project {
+        border-bottom: 1px solid currentColor;
         &:first-child {
-          border-top: 1px solid white;
+          border-top: 1px solid currentColor;
         }
-        &:hover {
-          color: color-mix(in srgb, currentColor, transparent 0%);
-        }
-        a {
-          display: block;
-          padding: 48px 32px;
-          text-decoration: none;
+      }
+      .link {
+        display: flex;
+        justify-content: space-between;
+        padding: 48px 32px;
+        position: relative;
+        color: color-mix(in srgb, currentColor, transparent 30%);
+        .name {
           font-size: customClamp(24px, 32px, 536px, 1200px);
           transition: color ease-out 0.2s;
+        }
+        .tags {
+          min-width: 256px;
+          display: flex;
+          justify-content: end;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 8px;
+
+          li {
+            /* background-color: rgba(0, 0, 0, 0.757); */
+            color: currentColor;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 14px;
+          }
+        }
+
+        ::before {
+          position: absolute;
+          content: '';
+          height: 0%;
+          width: 100%;
+          top: 0;
+          left: 0;
+          background-color: #2544ee;
+          z-index: -1;
+          transition: all 0.15s ease-out;
+        }
+      }
+      .link:hover {
+        color: white;
+        .name {
+          /* color: color-mix(in srgb, currentColor, transparent 0%); */
+        }
+        ::before {
+          height: 100%;
+          /* top: auto;
+          bottom: 0;
+          transform-origin: bottom center; */
         }
       }
     }
   }
   main:hover .float {
-    transform: scale(1);
+    scale: 1;
     opacity: 1;
   }
   .float {
     pointer-events: none;
     height: 230px;
-    max-height: 230px;
     width: 300px;
-    background-color: aliceblue;
+    background-color: rgb(247, 247, 247);
     overflow: clip;
     position: fixed;
     top: 40%;
     left: 40%;
 
-    transition: all 0.25s ease-out;
-    transform: scale(0);
-    opacity: 0.3;
+    transition:
+      all 0.25s ease-out,
+      opacity 0.25s ease-out,
+      scale 0.2s ease-out;
+    scale: 0;
+    opacity: 0;
 
     .container {
       height: 100%;
       width: 100%;
-      transition: all 0.2s cubic-bezier(0.31, 0.18, 0, 1.05);
+      transition: all 0.2s ease-in;
+      /* transition: all 0.4s cubic-bezier(0.77, 0, 0.18, 1); */
     }
 
     img {
@@ -125,7 +229,9 @@ const projects = [
 <script>
   const $floatInner = document.body.querySelector('.float .container') as HTMLElement
   const $float = document.body.querySelector('.float') as HTMLElement
-  const $links = document.body.querySelectorAll('main ul li') as NodeListOf<HTMLElement>
+  const $links = document.body.querySelectorAll(
+    'main .projects .project'
+  ) as NodeListOf<HTMLElement>
 
   $links.forEach((link, index) => {
     link.addEventListener('mouseenter', () => {
@@ -133,7 +239,6 @@ const projects = [
     })
   })
 
-  // ==================
   let requestAnimationFrameId = -1
   let xMove = 0
   let yMove = 0
@@ -141,12 +246,27 @@ const projects = [
   const inertia = 1 // inertia/easing
 
   const $main = document.body.querySelector('main') as HTMLElement
-  $main.addEventListener('mouseenter', mouseEnter)
+  $main.addEventListener('mouseenter', mouseEnter, { once: true })
+
   function mouseEnter() {
     const lerp = (start: number, end: number, amount: number) => {
       return start * (1 - amount) + end * amount
     }
+    const animation = () => {
+      xMove = lerp(0, xMove, inertia)
+      yMove = lerp(0, yMove, inertia)
 
+      $float.style.transform = `translateX(${xMove * 0.2 - $float.getBoundingClientRect().width / 2}px)`
+      // $float.style.left = xMove - $float.getBoundingClientRect().width / 2 + 'px'
+      $float.style.top = yMove - $float.getBoundingClientRect().height / 2 + 'px'
+
+      if (Math.abs(xMove) > 0.01 || Math.abs(yMove) > 0.01) {
+        requestAnimationFrame(animation)
+      } else {
+        cancelAnimationFrame(requestAnimationFrameId)
+        requestAnimationFrameId = -1
+      }
+    }
     const mouseMoveHandler = (e: MouseEvent) => {
       const { x, y } = e
       xMove = x * speed
@@ -157,21 +277,8 @@ const projects = [
         requestAnimationFrameId = requestAnimationFrame(animation)
       }
     }
+
     $main.addEventListener('mousemove', mouseMoveHandler)
-
-    const animation = () => {
-      xMove = lerp(0, xMove, inertia)
-      yMove = lerp(0, yMove, inertia)
-
-      $float.style.left = xMove - $float.getBoundingClientRect().width / 2 + 'px'
-      $float.style.top = yMove - $float.getBoundingClientRect().height / 2 + 'px'
-
-      if (Math.abs(xMove) > 0.01 || Math.abs(yMove) > 0.01) {
-        requestAnimationFrame(animation)
-      } else {
-        cancelAnimationFrame(requestAnimationFrameId)
-        requestAnimationFrameId = -1
-      }
-    }
+    $main.addEventListener('mouseleave', mouseMoveHandler)
   }
 </script>

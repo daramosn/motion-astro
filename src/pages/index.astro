@@ -54,7 +54,9 @@ const projects = [
                   <li>{tag}</li>
                 ))}
                 {project.desktop && (
-                  <li title="Works only with mouse position">Desktop only</li>
+                  <li class="desktop" title="Works only with mouse position">
+                    Desktop only
+                  </li>
                 )}
               </ul>
             </a>
@@ -92,12 +94,30 @@ const projects = [
 
   body {
     background-color: rgb(251, 254, 255);
+    /* background-color: #1e1e1e; */
+    /* background-color: #1b1b1d; */
+    /* background-color: #121212; */
+
     color: black;
+    /* color: #ffffff; */
+    /* color: #e0e0e0; */
+    /* color: blue; */
+
+    --accent-color: #2544ee;
+    /* --accent-color: #3b82f6; */
+    /* --accent-color: #6366f1; */
+    /* --accent-color: #10b981; */
+
+    &[data-theme='light'] {
+      background-color: #121212;
+      color: #ffffff;
+      --accent-color: #10b981;
+    }
   }
 
   /* body::before {
     --size: 45px;
-    --line: color-mix(in lch, canvasText, transparent 70%);
+    --line: color-mix(in lch, currentColor, transparent 90%);
     content: '';
     height: 100vh;
     width: 100vw;
@@ -147,20 +167,19 @@ const projects = [
           transition: color ease-out 0.2s;
         }
         .tags {
-          min-width: 256px;
+          width: 256px;
           display: flex;
           justify-content: end;
           align-items: center;
           flex-wrap: wrap;
-          gap: 8px;
-
+          column-gap: 24px;
           li {
-            /* background-color: rgba(0, 0, 0, 0.757); */
-            color: currentColor;
-            padding: 4px 8px;
-            border-radius: 8px;
             font-size: 14px;
           }
+        }
+
+        .tags .desktop {
+          display: none;
         }
 
         ::before {
@@ -170,7 +189,7 @@ const projects = [
           width: 100%;
           top: 0;
           left: 0;
-          background-color: #2544ee;
+          background-color: var(--accent-color);
           z-index: -1;
           transition: all 0.15s ease-out;
         }
@@ -224,61 +243,82 @@ const projects = [
       object-fit: contain;
     }
   }
+
+  @media (width < 768px) {
+    main .tags .desktop {
+      display: block;
+    }
+    .float {
+      display: none;
+    }
+  }
+  @media (width < 576px) {
+    main .link {
+      flex-direction: column;
+      gap: 8px;
+      .tags {
+        width: auto;
+        justify-content: start;
+      }
+    }
+  }
 </style>
 
 <script>
-  const $floatInner = document.body.querySelector('.float .container') as HTMLElement
-  const $float = document.body.querySelector('.float') as HTMLElement
-  const $links = document.body.querySelectorAll(
-    'main .projects .project'
-  ) as NodeListOf<HTMLElement>
+  if (!window.matchMedia('(width < 768px)').matches) {
+    const $floatInner = document.body.querySelector('.float .container') as HTMLElement
+    const $float = document.body.querySelector('.float') as HTMLElement
+    const $links = document.body.querySelectorAll(
+      'main .projects .project'
+    ) as NodeListOf<HTMLElement>
 
-  $links.forEach((link, index) => {
-    link.addEventListener('mouseenter', () => {
-      $floatInner.style.transform = `translateY(${-index * 100}%)`
+    $links.forEach((link, index) => {
+      link.addEventListener('mouseenter', () => {
+        $floatInner.style.transform = `translateY(${-index * 100}%)`
+      })
     })
-  })
 
-  let requestAnimationFrameId = -1
-  let xMove = 0
-  let yMove = 0
-  const speed = 1
-  const inertia = 1 // inertia/easing
+    let requestAnimationFrameId = -1
+    let xMove = 0
+    let yMove = 0
+    const speed = 1
+    const inertia = 1 // inertia/easing
 
-  const $main = document.body.querySelector('main') as HTMLElement
-  $main.addEventListener('mouseenter', mouseEnter, { once: true })
+    const $main = document.body.querySelector('main') as HTMLElement
+    $main.addEventListener('mouseenter', mouseEnter, { once: true })
 
-  function mouseEnter() {
-    const lerp = (start: number, end: number, amount: number) => {
-      return start * (1 - amount) + end * amount
-    }
-    const animation = () => {
-      xMove = lerp(0, xMove, inertia)
-      yMove = lerp(0, yMove, inertia)
-
-      $float.style.transform = `translateX(${xMove * 0.2 - $float.getBoundingClientRect().width / 2}px)`
-      // $float.style.left = xMove - $float.getBoundingClientRect().width / 2 + 'px'
-      $float.style.top = yMove - $float.getBoundingClientRect().height / 2 + 'px'
-
-      if (Math.abs(xMove) > 0.01 || Math.abs(yMove) > 0.01) {
-        requestAnimationFrame(animation)
-      } else {
-        cancelAnimationFrame(requestAnimationFrameId)
-        requestAnimationFrameId = -1
+    function mouseEnter() {
+      const lerp = (start: number, end: number, amount: number) => {
+        return start * (1 - amount) + end * amount
       }
-    }
-    const mouseMoveHandler = (e: MouseEvent) => {
-      const { x, y } = e
-      xMove = x * speed
-      yMove = y * speed
-      console.log({ xMove, yMove })
+      const animation = () => {
+        xMove = lerp(0, xMove, inertia)
+        yMove = lerp(0, yMove, inertia)
 
-      if (requestAnimationFrameId === -1) {
-        requestAnimationFrameId = requestAnimationFrame(animation)
+        $float.style.transform = `translateX(${xMove * 0.2 - $float.getBoundingClientRect().width / 2}px)`
+        // $float.style.left = xMove - $float.getBoundingClientRect().width / 2 + 'px'
+        $float.style.top = yMove - $float.getBoundingClientRect().height / 2 + 'px'
+
+        if (Math.abs(xMove) > 0.01 || Math.abs(yMove) > 0.01) {
+          requestAnimationFrame(animation)
+        } else {
+          cancelAnimationFrame(requestAnimationFrameId)
+          requestAnimationFrameId = -1
+        }
       }
-    }
+      const mouseMoveHandler = (e: MouseEvent) => {
+        const { x, y } = e
+        xMove = x * speed
+        yMove = y * speed
+        console.log({ xMove, yMove })
 
-    $main.addEventListener('mousemove', mouseMoveHandler)
-    $main.addEventListener('mouseleave', mouseMoveHandler)
+        if (requestAnimationFrameId === -1) {
+          requestAnimationFrameId = requestAnimationFrame(animation)
+        }
+      }
+
+      $main.addEventListener('mousemove', mouseMoveHandler)
+      $main.addEventListener('mouseleave', mouseMoveHandler)
+    }
   }
 </script>

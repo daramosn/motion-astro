@@ -12,28 +12,35 @@ const projects = [
     name: 'Infinite text',
     thumbnail: infiniteText.src,
     tags: ['Vue', 'GSAP'],
-    desktop: false
+    mobile: true
   },
   {
     url: '/floating-gallery',
     name: 'Floating gallery',
     thumbnail: floating.src,
     tags: ['Vue'],
-    desktop: true
+    mobile: false
   },
   {
     url: '/sticky-sections',
     name: 'Sticky sections',
     thumbnail: sticky.src,
     tags: ['Vue', 'GSAP'],
-    desktop: false
+    mobile: true
   },
   {
     url: '/mask-cursor',
     name: 'Mask cursor',
     thumbnail: mask.src,
     tags: ['Astro', 'Motion one'],
-    desktop: true
+    mobile: false
+  },
+  {
+    url: '/magnetic-element',
+    name: 'Magnetic element',
+    thumbnail: mask.src,
+    tags: ['React', 'Framer motion'],
+    mobile: false
   }
 ]
 ---
@@ -53,8 +60,12 @@ const projects = [
                 {project.tags.map((tag) => (
                   <li>{tag}</li>
                 ))}
-                {project.desktop && (
-                  <li class="desktop" title="Works only with mouse position">
+                {!project.mobile && (
+                  <li
+                    class="desktop"
+                    title="Works only with mouse position"
+                    style={`transform: translate(-50%,-50%) rotate(-${Math.random() * 30 + 10}deg);`}
+                  >
                     Desktop only
                   </li>
                 )}
@@ -177,12 +188,10 @@ const projects = [
             font-size: 14px;
           }
         }
-
         .tags .desktop {
           display: none;
         }
-
-        ::before {
+        &::before {
           position: absolute;
           content: '';
           height: 0%;
@@ -196,14 +205,8 @@ const projects = [
       }
       .link:hover {
         color: white;
-        .name {
-          /* color: color-mix(in srgb, currentColor, transparent 0%); */
-        }
-        ::before {
+        &::before {
           height: 100%;
-          /* top: auto;
-          bottom: 0;
-          transform-origin: bottom center; */
         }
       }
     }
@@ -219,6 +222,7 @@ const projects = [
     background-color: rgb(247, 247, 247);
     overflow: clip;
     position: fixed;
+
     top: 40%;
     left: 40%;
 
@@ -247,6 +251,16 @@ const projects = [
   @media (width < 768px) {
     main .tags .desktop {
       display: block;
+      position: absolute;
+      z-index: 3;
+      top: 50%;
+      left: 55%;
+      transform: translate(-50%, -50%) rotate(-20deg);
+      padding: 8px 16px;
+      border-radius: 50px;
+      color: white;
+      background-color: rgb(238 41 41);
+      box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.25);
     }
     .float {
       display: none;
@@ -256,9 +270,15 @@ const projects = [
     main .link {
       flex-direction: column;
       gap: 8px;
+
       .tags {
         width: auto;
         justify-content: start;
+
+        .desktop {
+          text-wrap: nowrap;
+          left: 75%;
+        }
       }
     }
   }

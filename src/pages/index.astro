@@ -12,36 +12,36 @@ const projects = [
     name: 'Infinite text',
     thumbnail: infiniteText.src,
     tags: ['Vue', 'GSAP'],
-    mobile: true
+    desktopOnly: false
   },
   {
     url: '/floating-gallery',
     name: 'Floating gallery',
     thumbnail: floating.src,
     tags: ['Vue'],
-    mobile: false
+    desktopOnly: 20
   },
   {
     url: '/sticky-sections',
     name: 'Sticky sections',
     thumbnail: sticky.src,
     tags: ['Vue', 'GSAP'],
-    mobile: true
+    desktopOnly: false
   },
   {
     url: '/mask-cursor',
     name: 'Mask cursor',
     thumbnail: mask.src,
     tags: ['Astro', 'Motion one'],
-    mobile: false
+    desktopOnly: 28
+  },
+  {
+    url: '/magnetic-element',
+    name: 'Magnetic element',
+    thumbnail: mask.src,
+    tags: ['React', 'Framer motion'],
+    desktopOnly: 5
   }
-  // {
-  //   url: '/magnetic-element',
-  //   name: 'Magnetic element',
-  //   thumbnail: mask.src,
-  //   tags: ['React', 'Framer motion'],
-  //   mobile: false
-  // }
 ]
 ---
 
@@ -60,11 +60,11 @@ const projects = [
                 {project.tags.map((tag) => (
                   <li>{tag}</li>
                 ))}
-                {!project.mobile && (
+                {project.desktopOnly && (
                   <li
                     class="desktop"
                     title="Works only with mouse position"
-                    style={`transform: translate(-50%,-50%) rotate(-${Math.random() * 30 + 10}deg);`}
+                    style={`transform: translate(-50%,-50%) rotate(-${project.desktopOnly}deg);`}
                   >
                     Desktop only
                   </li>

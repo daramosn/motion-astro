@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { useRef, useState, type ReactNode, type SVGProps } from 'react'
 
 import './MagneticElement.css'

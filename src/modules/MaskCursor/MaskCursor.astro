@@ -11,24 +11,27 @@
 </main>
 
 <script>
-  import { animate, spring } from 'motion'
+  import { animate, frame } from 'motion'
   const $main = document.body.querySelector('.mask-cursor') as HTMLElement
+
+  const $circle = document.body.querySelector('.circle') as HTMLElement
+  const circleRadius = $circle.getBoundingClientRect().height / 2
 
   const mouseMoveHandler = (e: MouseEvent) => {
     const { x, y } = e
-
-    const $circle = document.body.querySelector('.circle') as HTMLElement
-    const circleRadius = $circle.getBoundingClientRect().height / 2
 
     // Vanilla (no smooth spring)
     // $circle.style.left = x - circleBound.width / 2 + 'px'
     // $circle.style.top = y - circleBound.height / 2 + 'px'
 
     // Motion one
-    animate(
-      $circle,
-      { x: x - circleRadius, y: y - circleRadius },
-      { easing: spring({ mass: 1, damping: 17, stiffness: 300 }) }
+
+    frame.postRender(() =>
+      animate(
+        $circle,
+        { x: x - circleRadius, y: y - circleRadius },
+        { type: 'spring', stiffness: 300, damping: 17 }
+      )
     )
 
     // GSAP

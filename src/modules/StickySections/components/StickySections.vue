@@ -1,13 +1,13 @@
 <template>
-  <main class="sticky">
+  <main class="sticky-demo">
     <section class="landing">
       <h1>THE <span>ESCAPE</span></h1>
       <p>AN EXPLORATION OF THE SYNTHETIC ERA.</p>
     </section>
     <section class="description">
       <p>
-        As data conglomerates reveled in the opulence of cognitive wealth, a
-        silent underclass manifested, condemned to the digital periphery.
+        As data conglomerates reveled in the opulence of cognitive wealth, a silent
+        underclass manifested, condemned to the digital periphery.
       </p>
     </section>
     <section>
@@ -19,10 +19,7 @@
       <article>
         <img :src="img2.src" alt="golden-figure-2" />
         <h2>THE <span> DOGMA </span></h2>
-        <p>
-          Enshrining the principles of conformity and reinforcing the status
-          quo.
-        </p>
+        <p>Enshrining the principles of conformity and reinforcing the status quo.</p>
       </article>
       <article>
         <img :src="img3.src" alt="golden-figure-3" />
@@ -42,9 +39,8 @@
     </section>
     <section class="ending">
       <p>
-        Lost in perpetual dependency, inhabitants of the Synthetic Era found
-        solace in cryptic simulations, where pain ebbed and cognitive loads
-        momentarily lightened.
+        Lost in perpetual dependency, inhabitants of the Synthetic Era found solace in
+        cryptic simulations, where pain ebbed and cognitive loads momentarily lightened.
       </p>
       <img :src="img5.src" alt="golden-figure-5" />
     </section>
@@ -67,7 +63,7 @@ onMounted(async () => {
 
   gsap.registerPlugin(ScrollTrigger)
 
-  const $articles = document.body.querySelectorAll('.sticky section article')
+  const $articles = document.body.querySelectorAll('.sticky-demo section article')
 
   $articles.forEach((article, index) => {
     const isLast = index === $articles.length - 1
@@ -102,7 +98,7 @@ onMounted(async () => {
 </script>
 
 <style>
-.sticky {
+.sticky-demo {
   background-color: #0e0d0b;
   .landing {
     height: 100vh;
@@ -193,7 +189,7 @@ onMounted(async () => {
 }
 
 @media (width<768px) {
-  .sticky {
+  .sticky-demo {
     article {
       width: 100%;
     }

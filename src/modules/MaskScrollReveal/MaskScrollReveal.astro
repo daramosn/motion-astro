@@ -1,0 +1,135 @@
+---
+import turtle from './assets/turtle_picture.webp'
+import jellyfish from './assets/jellyfish_pic.png'
+import fish from './assets/fishes_pic.webp'
+import crab from './assets/crab_pic.jpg'
+import starfish from './assets/starfish_pic.jpg'
+---
+
+<main>
+  <section class="title">
+    <h1>Welcome to sea life</h1>
+  </section>
+  <div class="gallery-wrapper">
+    <section class="gallery">
+      <article>
+        <img class="mask1" src={fish.src} alt="fishes" />
+      </article>
+      <article>
+        <img class="mask2" src={jellyfish.src} alt="jellyfish" />
+      </article>
+      <article>
+        <img class="mask3" src={turtle.src} alt="turtle" />
+      </article>
+      <article>
+        <img class="mask4" src={crab.src} alt="crab" />
+      </article>
+      <article>
+        <img class="mask5" src={starfish.src} alt="starfish" />
+      </article>
+    </section>
+  </div>
+  <footer>
+    <span>Sea life gallery with scroll mask reveal</span>
+  </footer>
+</main>
+
+<style>
+  @font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-display: swap;
+    font-weight: 400;
+    src:
+      url(https://cdn.jsdelivr.net/fontsource/fonts/poppins@latest/latin-400-normal.woff2)
+        format('woff2'),
+      url(https://cdn.jsdelivr.net/fontsource/fonts/poppins@latest/latin-400-normal.woff)
+        format('woff');
+    unicode-range:
+      U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+      U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
+      U+FFFD;
+  }
+  main {
+    font-family: 'Poppins', 'Roboto', 'sans-serif';
+    background-color: #09151e;
+    .title {
+      min-height: 100vh;
+      display: grid;
+      place-content: center;
+      padding: 64px 128px;
+      h1 {
+        font-size: customClamp(64px, 160px, 568px, 1200px);
+        font-weight: 700;
+        text-wrap: pretty;
+      }
+    }
+    .gallery-wrapper {
+      position: relative;
+      .gallery {
+        height: 100vh;
+        position: sticky;
+        top: 0;
+        article {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+
+            mask-repeat: no-repeat;
+            mask-position: center;
+          }
+          .mask1 {
+            mask-image: url('./assets/fish.svg');
+          }
+          .mask2 {
+            mask-image: url('./assets/jellyfish.svg');
+            mask-position: 75% 45%;
+          }
+          .mask3 {
+            mask-image: url('./assets/sea-turtle.svg');
+          }
+          .mask4 {
+            mask-image: url('./assets/crab.svg');
+          }
+          .mask5 {
+            mask-image: url('./assets/starfish.svg');
+          }
+        }
+      }
+    }
+
+    footer {
+      height: 500px;
+      display: grid;
+      place-content: center;
+    }
+  }
+</style>
+
+<script>
+  import { animate, scroll, type Segment } from 'motion'
+
+  const $gallery = document.querySelector('.gallery-wrapper') as HTMLElement
+
+  const $images = document.querySelectorAll('.gallery article img') as NodeListOf<Element>
+
+  $gallery.style.height = 120 * $images.length + 'vh'
+
+  scroll(
+    animate(
+      Array.from($images).map(
+        ($img) => [$img, { maskSize: ['0', '500%'] }, { ease: 'linear' }] as Segment
+      )
+    ),
+    {
+      target: $gallery,
+      offset: ['0.2 end', 'end end']
+    }
+  )
+</script>

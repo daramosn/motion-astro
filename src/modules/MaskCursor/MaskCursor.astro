@@ -6,32 +6,37 @@
       esse dicta, laboriosam voluptates eligendi neque quia nihil facere id sapiente quis
       vitae ad reprehenderit qui officia ex. Ullam.
     </p>
-    <div class="circle"></div>
   </section>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
+  <div class="circle"></div>
 </main>
 
 <script>
   import { animate, frame } from 'motion'
   const $main = document.body.querySelector('.mask-cursor') as HTMLElement
 
-  const $circle = document.body.querySelector('.circle') as HTMLElement
-  const circleRadius = $circle.getBoundingClientRect().height / 2
+  const $circles = document.body.querySelectorAll('.circle') as NodeListOf<Element>
 
   const mouseMoveHandler = (e: MouseEvent) => {
     const { x, y } = e
+    const circleRadius = $circles[0].getBoundingClientRect().height / 2
+    // const circleRadius = 0
 
     // Vanilla (no smooth spring)
     // $circle.style.left = x - circleBound.width / 2 + 'px'
     // $circle.style.top = y - circleBound.height / 2 + 'px'
 
     // Motion one
-
     frame.postRender(() =>
-      animate(
-        $circle,
-        { x: x - circleRadius, y: y - circleRadius },
-        { type: 'spring', stiffness: 300, damping: 17 }
-      )
+      $circles.forEach(($circle, i) => {
+        animate(
+          $circle,
+          { x: x - circleRadius, y: y - circleRadius },
+          { type: 'spring', stiffness: 300 + 100 * i, damping: 17 }
+        )
+      })
     )
 
     // GSAP
@@ -64,26 +69,41 @@
     section {
       padding: 32px;
 
-      &:hover .circle {
-        width: 250px;
-        height: 250px;
+      &:hover ~ .circle {
+        --width: 280px;
+        filter: blur(10px);
       }
     }
 
     .circle {
+      --width: 42px;
       position: absolute;
       top: 0;
       left: 0;
       border-radius: 50%;
-      width: 32px;
-      height: 32px;
+      width: var(--width);
+      height: var(--width);
       transform: translate(-100px, -100px);
-      background-color: white;
+      background-color: rgb(13, 13, 13);
       mix-blend-mode: difference;
       pointer-events: none;
       transition:
         width 0.1s ease-in,
-        height 0.1s ease-in;
+        height 0.1s ease-in,
+        filter 0.2s ease-out;
+
+      &:nth-of-type(2) {
+        background-color: rgb(222, 61, 61);
+        transition-delay: 0.05s;
+      }
+      &:nth-of-type(3) {
+        background-color: rgb(213, 239, 44);
+        transition-delay: 0.06s;
+      }
+      &:nth-of-type(4) {
+        background-color: rgb(0, 255, 38);
+        transition-delay: 0.08s;
+      }
     }
   }
 </style>

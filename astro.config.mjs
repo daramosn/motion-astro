@@ -1,7 +1,7 @@
-import { defineConfig } from 'astro/config';
-import vue from '@astrojs/vue';
+import { defineConfig } from 'astro/config'
+import vue from '@astrojs/vue'
 
-import react from "@astrojs/react";
+import react from '@astrojs/react'
 
 // https://astro.build/config
 export default defineConfig({
@@ -10,5 +10,8 @@ export default defineConfig({
     optimizeDeps: {
       include: ['src/components/*.vue', 'gsap']
     }
+  },
+  devToolbar: {
+    enabled: false
   }
-});
+})

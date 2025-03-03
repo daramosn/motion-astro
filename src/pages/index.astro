@@ -7,6 +7,7 @@ import infiniteText from '../assets/infinite-text.webp'
 import mask from '../assets/mask2.webp'
 import magnetic from '../assets/magnetic.webp'
 import maskScroll from '../assets/mask-scroll.webp'
+import imageTrail from '../assets/image-trail-2.webp'
 
 const projects = [
   {
@@ -21,7 +22,7 @@ const projects = [
     name: 'Floating gallery',
     thumbnail: floating.src,
     tags: ['Vue'],
-    desktopOnly: 20
+    desktopOnly: -20
   },
   {
     url: '/sticky-sections',
@@ -35,14 +36,14 @@ const projects = [
     name: 'Mask cursor',
     thumbnail: mask.src,
     tags: ['Astro', 'Motion'],
-    desktopOnly: 28
+    desktopOnly: -28
   },
   {
     url: '/magnetic-element',
     name: 'Magnetic element',
     thumbnail: magnetic.src,
     tags: ['React', 'Framer motion'],
-    desktopOnly: 5
+    desktopOnly: -11
   },
   {
     url: '/mask-scroll-reveal',
@@ -50,6 +51,13 @@ const projects = [
     thumbnail: maskScroll.src,
     tags: ['Astro', 'Motion'],
     desktopOnly: false
+  },
+  {
+    url: '/image-trail',
+    name: 'Image trail',
+    thumbnail: imageTrail.src,
+    tags: ['Vue', 'Motion'],
+    desktopOnly: 10
   }
 ]
 ---
@@ -73,7 +81,7 @@ const projects = [
                   <li
                     class="desktop"
                     title="Works only with mouse position"
-                    style={`transform: translate(-50%,-50%) rotate(-${project.desktopOnly}deg);`}
+                    style={`transform: translate(-50%,-50%) rotate(${project.desktopOnly}deg);`}
                   >
                     Desktop only
                   </li>

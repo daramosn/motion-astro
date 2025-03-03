@@ -176,17 +176,29 @@ const mouseMoveHandler = (e: MouseEvent) => {
       '3': [
         [
           $image,
-          { opacity: 1, scaleX: 1, scaleY: 1, x: x, y: y, top: 0 },
+          {
+            opacity: 1,
+            scaleX: 1,
+            scaleY: 1,
+            x: x,
+            y: y,
+            top: 0,
+            transformOrigin: '50% 0%'
+          },
           { duration: 0 }
         ],
-        [$image, { opacity: 1 }, { duration: 0.3 }],
+        [$image, { opacity: 1 }, { duration: 0.6 }],
         [$image, { scaleX: 0.9 }, { duration: 0.1 }],
         [
           $image,
-          { scaleX: 0.9, scaleY: 1.2, transformOrigin: '50% 0%', opacity: 0.7 },
+          { scaleX: 0.9, scaleY: 1.2, opacity: 0.7 },
           { duration: 0.3, delay: -0.15 }
         ],
-        [$image, { opacity: 0, top: 1200 }, { ease: 'easeOut', duration: 0.2 }],
+        [
+          $image,
+          { opacity: 0, top: 1200, transformOrigin: '50% 0%' },
+          { ease: 'easeOut', duration: 0.2 }
+        ],
         [
           $image,
           { opacity: 0, scaleX: 1, scaleY: 1, top: 0, transformOrigin: '50% 50%' },

@@ -187,7 +187,11 @@ const mouseMoveHandler = (e: MouseEvent) => {
           { duration: 0.3, delay: -0.15 }
         ],
         [$image, { opacity: 0, top: 1200 }, { ease: 'easeOut', duration: 0.2 }],
-        [$image, { opacity: 0, scaleX: 1, scaleY: 1, top: 0 }, { duration: 0 }]
+        [
+          $image,
+          { opacity: 0, scaleX: 1, scaleY: 1, top: 0, transformOrigin: '50% 50%' },
+          { duration: 0 }
+        ]
       ] as AnimationSequence,
 
       '4': [

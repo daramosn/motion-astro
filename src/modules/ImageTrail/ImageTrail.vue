@@ -55,14 +55,13 @@
     padding: 32px;
 
     h1 {
-      /* font-size: customClamp(32px, 180px, 576px, 1200px); */
       font-family: Poppins;
       line-height: 160px;
       font-size: 16vw;
       line-height: 16vw;
       font-weight: 700;
       text-wrap: nowrap;
-      text-transform: uppercase;
+      text-transform: lowercase;
       -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.548);
       color: transparent;
     }

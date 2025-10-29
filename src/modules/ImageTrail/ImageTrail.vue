@@ -47,7 +47,7 @@
 
   .content {
     position: fixed;
-    z-index: 1000;
+    z-index: 1;
     height: 100vh;
     display: flex;
     flex-direction: column;

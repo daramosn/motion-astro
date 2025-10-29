@@ -1,11 +1,12 @@
 {
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "baseUrl": ".",
+    "moduleResolution": "bundler",
     "paths": {
-      "@modules/*": ["src/modules/*"],
-      "@images/*": ["src/assets/images/*"],
-      "@icons/*": ["src/assets/icons/*"]
+      "@/*": ["./src/*"],
+      "@modules/*": ["./src/modules/*"],
+      "@images/*": ["./src/images/*"],
+      "@icons/*": ["./src/icons/*"]
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react"

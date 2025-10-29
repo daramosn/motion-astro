@@ -1,0 +1,41 @@
+---
+import ChevronLeft from '../assets/chevron_left.svg'
+---
+
+<button class="go-back" onclick="history.back()">
+  <ChevronLeft />
+</button>
+
+<style scoped>
+  .go-back {
+    --size: 40px;
+    z-index: 10;
+    margin-left: 16px;
+    margin-top: 16px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.438);
+    color: rgb(255, 255, 255);
+    transition: all 0.1s ease-out;
+    border-radius: 50px;
+    aspect-ratio: 1 / 1;
+    padding: 0;
+    display: grid;
+    place-content: center;
+    opacity: 0.2;
+
+    &:hover {
+      opacity: 0.4;
+    }
+    &:active {
+      scale: 0.95;
+    }
+
+    svg {
+      width: var(--size);
+      height: var(--size);
+    }
+  }
+</style>

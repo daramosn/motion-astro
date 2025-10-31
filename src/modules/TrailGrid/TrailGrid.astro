@@ -1,6 +1,6 @@
 ---
 const rows = 10
-const columns = 20
+const columns = 10
 ---
 
 <main class="trail-grid">
@@ -32,13 +32,44 @@ const columns = 20
   </section>
 </main>
 
+<script>
+  const grid = document.querySelector('.trail-grid .grid') as HTMLElement
+  if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
+    grid.addEventListener(
+      'pointermove',
+      (event) => {
+        document.querySelector('[data-hover]')?.removeAttribute('data-hover')
+        const el = document.elementFromPoint(event.x, event.y) as HTMLElement
+        el.dataset.hover = 'true'
+      },
+      true
+    )
+    grid.addEventListener(
+      'pointerleave',
+      (_event) => {
+        document.querySelector('[data-hover]')?.removeAttribute('data-hover')
+      },
+      true
+    )
+  }
+</script>
+
 <style>
+  .grid div svg[data-hover] {
+    transition-property: opacity, rotate, filter;
+    transition-duration: 0s;
+    rotate: calc(var(--grade, 0) * 90deg);
+    filter: grayscale(0) brightness(1.5);
+    opacity: 1;
+  }
+
   .trail-grid {
     min-height: 100vh;
     display: grid;
     place-items: center;
     padding: 2rem;
     .grid {
+      touch-action: none;
       display: grid;
       grid-template-columns: repeat(var(--columns), 1fr);
 
@@ -64,12 +95,14 @@ const columns = 20
       color: hsl(var(--hue) 80% 50%);
       filter: grayscale(1);
 
-      &:hover {
-        transition-property: opacity, rotate, filter;
-        transition-duration: 0s;
-        rotate: calc(var(--grade, 0) * 90deg);
-        filter: grayscale(0) brightness(1.5);
-        opacity: 1;
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          transition-property: opacity, rotate, filter;
+          transition-duration: 0s;
+          rotate: calc(var(--grade, 0) * 90deg);
+          filter: grayscale(0) brightness(1.5);
+          opacity: 1;
+        }
       }
     }
   }

@@ -55,14 +55,6 @@ const columns = 10
 </script>
 
 <style>
-  .grid div svg[data-hover] {
-    transition-property: opacity, rotate, filter;
-    transition-duration: 0s;
-    rotate: calc(var(--grade, 0) * 90deg);
-    filter: grayscale(0) brightness(1.5);
-    opacity: 1;
-  }
-
   .trail-grid {
     min-height: 100vh;
     display: grid;
@@ -95,6 +87,7 @@ const columns = 10
       color: hsl(var(--hue) 80% 50%);
       filter: grayscale(1);
 
+      /* desktop */
       @media (hover: hover) and (pointer: fine) {
         &:hover {
           transition-property: opacity, rotate, filter;
@@ -103,6 +96,15 @@ const columns = 10
           filter: grayscale(0) brightness(1.5);
           opacity: 1;
         }
+      }
+
+      /* mobile */
+      &[data-hover] {
+        transition-property: opacity, rotate, filter;
+        transition-duration: 0s;
+        rotate: calc(var(--grade, 0) * 90deg);
+        filter: grayscale(0) brightness(1.5);
+        opacity: 1;
       }
     }
   }

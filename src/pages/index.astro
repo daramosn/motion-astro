@@ -68,6 +68,9 @@ const projects: Project[] = [
     desktopOnly: { grade: 10, disclaimer: true }
   }
 ]
+
+const disclaimer =
+  'This demo uses pointer events. It does work on mobile, but the interaction pattern is really designed for desktop use with a mouse.'
 ---
 
 <Layout title="Motion projects gallery" goBack={false}>
@@ -115,8 +118,7 @@ const projects: Project[] = [
   </main>
   <footer>
     <span class="symbol"> ✱✱ </span>
-    This demos are using the pointer events, and even they can work on mobile, these patterns
-    are recomended only for desktop using a mouse.
+    {disclaimer}
   </footer>
 </Layout>
 
@@ -285,6 +287,7 @@ const projects: Project[] = [
   footer {
     display: none;
     margin: 32px max(32px, calc((100% - var(--body)) / 2));
+    color: color-mix(in srgb, currentColor, transparent 30%);
     .symbol {
       margin-top: -4px;
       font-size: 22px;

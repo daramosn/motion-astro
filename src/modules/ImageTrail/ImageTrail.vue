@@ -246,7 +246,6 @@ const mouseMoveHandler = (e: PointerEvent) => {
     lastX = posTarget.x
     lastY = posTarget.y
     zIndex = (zIndex + 1) % 11
-    console.log('zIndex', zIndex)
   }
 }
 

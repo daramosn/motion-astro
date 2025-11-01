@@ -1,5 +1,5 @@
 <template>
-  <section class="image-trail" @mousemove="mouseMoveHandler">
+  <section class="image-trail" @pointermove="mouseMoveHandler">
     <section class="content">
       <h1>Image trail</h1>
       <div class="buttons">
@@ -42,17 +42,18 @@
 }
 .image-trail {
   background-color: rgb(5, 21, 4);
-  min-height: 100vh;
+  min-height: 100svh;
   font-family: 'Poppins';
 
   .content {
+    height: 100%;
     position: fixed;
-    z-index: 1;
-    height: 100vh;
+    z-index: 12;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 32px;
+    touch-action: none;
 
     h1 {
       font-family: Poppins;
@@ -96,13 +97,34 @@
     transform: translate(-105%, -105%);
   }
 }
+@media (width < 600px) {
+  .image-trail {
+    touch-action: none;
+    height: 100svh;
+    .content .buttons {
+      touch-action: auto;
+    }
+    img {
+      width: 80px;
+      aspect-ratio: 2/3;
+      object-fit: cover;
+    }
+  }
+}
 </style>
 
 <script lang="ts" setup>
 import { animate, type AnimationSequence } from 'motion'
 import { ref, useTemplateRef } from 'vue'
 
-const images = Object.values(
+interface Image {
+  format: string
+  height: number
+  src: string
+  width: number
+}
+
+const images: Image[] = Object.values(
   import.meta.glob('./images/*.webp', {
     eager: true,
     import: 'default'
@@ -121,8 +143,9 @@ let zIndex = 0
 let lastX = 0
 let lastY = 0
 
-const mouseMoveHandler = (e: MouseEvent) => {
+const mouseMoveHandler = (e: PointerEvent) => {
   if (!$images.value) return
+  if (e.pointerType === 'touch') e.preventDefault()
   const { x, y } = e
 
   if (!lastX || !lastY) {
@@ -222,7 +245,8 @@ const mouseMoveHandler = (e: MouseEvent) => {
     animate(sequence[currentSequence.value])
     lastX = posTarget.x
     lastY = posTarget.y
-    zIndex++
+    zIndex = (zIndex + 1) % 11
+    console.log('zIndex', zIndex)
   }
 }
 

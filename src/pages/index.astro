@@ -9,55 +9,63 @@ import magnetic from '../assets/magnetic.webp'
 import maskScroll from '../assets/mask-scroll.webp'
 import imageTrail from '../assets/image-trail.webp'
 
-const projects = [
+interface Project {
+  url: string
+  name: string
+  thumbnail: string
+  tags: string[]
+  desktopOnly?: {
+    grade: number
+    disclaimer?: boolean
+  }
+}
+
+const projects: Project[] = [
   {
     url: '/infinite-text',
     name: 'Infinite text',
     thumbnail: infiniteText.src,
-    tags: ['Vue', 'GSAP'],
-    desktopOnly: false
+    tags: ['Vue', 'GSAP']
   },
   {
     url: '/floating-gallery',
     name: 'Floating gallery',
     thumbnail: floating.src,
     tags: ['Vue'],
-    desktopOnly: -20
+    desktopOnly: { grade: -20 }
   },
   {
     url: '/sticky-sections',
     name: 'Sticky sections',
     thumbnail: sticky.src,
-    tags: ['Vue', 'GSAP'],
-    desktopOnly: false
+    tags: ['Vue', 'GSAP']
   },
   {
     url: '/mask-cursor',
     name: 'Mask cursor',
     thumbnail: mask.src,
     tags: ['Astro', 'Motion'],
-    desktopOnly: -28
+    desktopOnly: { grade: -28, disclaimer: true }
   },
   {
     url: '/magnetic-element',
     name: 'Magnetic element',
     thumbnail: magnetic.src,
     tags: ['React', 'Framer motion'],
-    desktopOnly: -11
+    desktopOnly: { grade: -11 }
   },
   {
     url: '/mask-scroll-reveal',
     name: 'Mask scroll reveal',
     thumbnail: maskScroll.src,
-    tags: ['Astro', 'Motion'],
-    desktopOnly: false
+    tags: ['Astro', 'Motion']
   },
   {
     url: '/image-trail',
     name: 'Image trail',
     thumbnail: imageTrail.src,
     tags: ['Vue', 'Motion'],
-    desktopOnly: 10
+    desktopOnly: { grade: 10, disclaimer: true }
   }
 ]
 ---
@@ -81,9 +89,12 @@ const projects = [
                   <li
                     class="desktop"
                     title="Works only with mouse position"
-                    style={`transform: translate(-50%,-50%) rotate(${project.desktopOnly}deg);`}
+                    style={`transform: translate(-50%,-50%) rotate(${project.desktopOnly.grade}deg);`}
                   >
-                    Desktop only
+                    Desktop only{' '}
+                    {project.desktopOnly?.disclaimer && (
+                      <span class="disclaimer"> ✱✱ </span>
+                    )}
                   </li>
                 )}
               </ul>
@@ -102,6 +113,11 @@ const projects = [
       </div>
     </div>
   </main>
+  <footer>
+    <span class="symbol"> ✱✱ </span>
+    This demos are using the pointer events, and even they can work on mobile, these patterns
+    are recomended only for desktop using a mouse.
+  </footer>
 </Layout>
 
 <style>
@@ -266,6 +282,16 @@ const projects = [
     }
   }
 
+  footer {
+    display: none;
+    margin: 32px max(32px, calc((100% - var(--body)) / 2));
+    .symbol {
+      margin-top: -4px;
+      font-size: 22px;
+      vertical-align: super;
+    }
+  }
+
   @media (width < 768px) {
     main .tags .desktop {
       display: block;
@@ -279,9 +305,17 @@ const projects = [
       color: white;
       background-color: rgb(238 41 41);
       box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.25);
+
+      .disclaimer {
+        font-size: 12px;
+        vertical-align: super;
+      }
     }
     .float {
       display: none;
+    }
+    footer {
+      display: block;
     }
   }
   @media (width < 576px) {
